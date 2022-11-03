@@ -27,6 +27,7 @@ font xft:URWGothic-Book 9
 floating_modifier $mod
 
 # start a terminal
+#bindsym $mod+Return exec urxvt
 bindsym $mod+Return exec terminator
 
 
@@ -60,9 +61,9 @@ bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 
 # Start Applications
 bindsym $mod+Ctrl+b exec terminal -e 'bmenu'
-bindsym $mod+F2 exec firefox
-bindsym $mod+F3 exec pcmanfm
-bindsym $mod+F4 exec audacious
+
+
+
 # bindsym $mod+F3 exec ranger
 bindsym $mod+Shift+F3 exec pcmanfm_pkexec
 bindsym $mod+F5 exec terminal -e 'mocp'
@@ -115,9 +116,9 @@ bindsym $mod+q split toggle
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+#bindsym $mod+s layout stacking
+#bindsym $mod+w layout tabbed
+#bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -148,11 +149,11 @@ bindsym $mod+Ctrl+Left workspace prev
 #                 set $ws2 2:
 set $ws1 "        "
 set $ws2 "        "
-set $ws3 "        "
+set $ws3 "         "
 set $ws4 "        "
-set $ws5 "        " 
-set $ws6 "        "
-set $ws7 "        "
+set $ws5 "   11   " 
+set $ws6 "   22   "
+set $ws7 "   33   "
 set $ws8 "        "
 set $ws9 "        " 
 
@@ -191,12 +192,15 @@ bindsym $mod+Shift+9 move container to workspace $ws9; workspace $ws9
 
 # Open applications on specific workspaces
 assign [class="firefox"] $ws1
+assign [class="okular"] $ws2
 assign [class="Code"] $ws2
 assign [class="mpv"] $ws3
 assign [class="Pcmanfm"] $ws4
+assign [class="Piper"] $ws7
+assign [class="Variety"] $ws7
 assign [class="TelegramDesktop"] $ws8
 assign [class="Audacious"] $ws9
-assign [class="Variety"] $ws7
+
 
 
 
@@ -338,7 +342,35 @@ set_from_resource $term_color15    color15
 
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
 bar {
-	font pango:Inconsolata 11
+	i3bar_command i3bar
+	status_command i3status
+	position top
+
+## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
+#	tray_output primary
+#	tray_output eDP1
+
+	bindsym button4 nop
+	bindsym button5 nop
+	font pango:Inconsolata 9
+	strip_workspace_numbers no
+
+    colors {
+        background #222D31
+        statusline #F9FAF9
+        separator  #454947
+
+#                      border  backgr. text
+        focused_workspace  #222D31 #222D31 #222D31
+        active_workspace   #222D31 #222D31 #222D31
+        inactive_workspace #222D31 #222D31 #222D31
+        binding_mode       #222D31 #222D31 #222D31
+        urgent_workspace   #222D31 #222D31 #222D31
+    }
+}
+bar {
+	i3bar_command i3bar
+	font pango:Inconsolata 8
         position bottom
    	tray_output none
    
@@ -416,24 +448,24 @@ mode "$mode_gaps" {
         bindsym Escape mode "default"
 }
 mode "$mode_gaps_inner" {
-        bindsym plus  gaps inner current plus 5
-        bindsym minus gaps inner current minus 5
+        bindsym plus  gaps inner current plus 1
+        bindsym minus gaps inner current minus 1
         bindsym 0     gaps inner current set 0
 
-        bindsym Shift+plus  gaps inner all plus 5
-        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+plus  gaps inner all plus 1
+        bindsym Shift+minus gaps inner all minus 1
         bindsym Shift+0     gaps inner all set 0
 
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
 mode "$mode_gaps_outer" {
-        bindsym plus  gaps outer current plus 5
-        bindsym minus gaps outer current minus 5
+        bindsym plus  gaps outer current plus 1
+        bindsym minus gaps outer current minus 1
         bindsym 0     gaps outer current set 0
 
-        bindsym Shift+plus  gaps outer all plus 5
-        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+plus  gaps outer all plus 1
+        bindsym Shift+minus gaps outer all minus 1
         bindsym Shift+0     gaps outer all set 0
 
         bindsym Return mode "default"
@@ -455,7 +487,14 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 
 
 #---my keybiendings-------------------------------------
+#bindsym $mod+F2 exec firefox
+#bindsym $mod+F3 exec pcmanfm
+#bindsym $mod+F4 exec audacious
 bindsym $mod+i exec mpv $(xclip -o)
+bindsym $mod+w exec firefox
+bindsym $mod+p exec pcmanfm
+bindsym $mod+s exec audacious
+
 
 
 
@@ -463,4 +502,3 @@ bindsym $mod+i exec mpv $(xclip -o)
 #---auto start -----------------------------------------
 #exec_always --no-startup-id ibus 
 exec_always --no-startup-id variety 
-
